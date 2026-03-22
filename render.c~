@@ -1,0 +1,10 @@
+#include <stdio.h>
+#include "render.h"
+
+void render_game(const Game *game)
+{
+  for(int i=0;i<MAP_HEIGHT;i++)
+    {
+      printf("%s\n", game->map[i]);
+    }
+}

@@ -1,0 +1,10 @@
+#include "game.h"
+#include "map.h"
+
+void init_game(Game *game)
+{
+  init_map(game->map);
+
+  game->player.x = 1;
+  game->player.y = 1;
+}
