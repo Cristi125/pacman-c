@@ -1,6 +1,21 @@
 #include "game.h"
 #include "map.h"
 
+int count_dots(const Game *game)
+{
+  int count = 0;
+
+  for(int i=0;i < MAP_HEIGHT; i++)
+    {
+      for(int j=0;j < MAP_WIDTH; j++)
+	{
+	  if(game->map[i][j] == '.')
+	    count++;
+	}
+    }
+  return count;
+}
+
 void init_game(Game *game)
 {
   init_map(game->map);
@@ -8,12 +23,16 @@ void init_game(Game *game)
   game->player.x = 1;
   game->player.y = 1;
   game->score = 0;
+  game->is_running = 1;
 
   if(game->map[game->player.y][game->player.x] == '.')
     {
       game->score++;
       game->map[game->player.y][game->player.x] = ' ';
     }
+
+  if(count_dots(game) == 0)
+    game->is_running = 0;
 }
 
 void move_player(Game *game, char direction)
@@ -53,5 +72,8 @@ void move_player(Game *game, char direction)
 	  game->score++;
 	  game->map[new_y][new_x] = ' ';
 	}
+
+      if(count_dots(game) == 0)
+	game->is_running = 0;
     }
 }
