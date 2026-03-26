@@ -12,6 +12,7 @@ typedef struct{
 typedef struct {
   char map[MAP_HEIGHT][MAP_WIDTH + 1];
   Player player;
+  int score;
 } Game;
 
 void init_game(Game *game);

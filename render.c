@@ -3,6 +3,8 @@
 
 void render_game(const Game *game)
 {
+  printf("Score: %d\n", game->score);
+  
   for(int i=0;i<MAP_HEIGHT;i++)
     {
       for(int j=0;j<MAP_WIDTH;j++)

@@ -7,6 +7,13 @@ void init_game(Game *game)
 
   game->player.x = 1;
   game->player.y = 1;
+  game->score = 0;
+
+  if(game->map[game->player.y][game->player.x] == '.')
+    {
+      game->score++;
+      game->map[game->player.y][game->player.x] = ' ';
+    }
 }
 
 void move_player(Game *game, char direction)
@@ -40,5 +47,11 @@ void move_player(Game *game, char direction)
     {
       game->player.x = new_x;
       game->player.y = new_y;
+
+      if (game->map[new_y][new_x] == '.')
+	{
+	  game->score++;
+	  game->map[new_y][new_x] = ' ';
+	}
     }
 }
