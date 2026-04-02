@@ -21,7 +21,7 @@ static int can_move_in_direction(const Game *game, char direction) {
         return 0;
     }
 
-    if (game->map[new_y][new_x] == '#') {
+    if (game->map[new_y][new_x] == '#' || game->map[new_y][new_x] == '=') {
         return 0;
     }
 
@@ -44,10 +44,15 @@ int count_dots(const Game *game) {
 
 void init_game(Game *game) {
     init_map(game->map);
-    game->player.x = 1;
-    game->player.y = 1;
+    game->player.x = 14;
+    game->player.y = 13;
     game->player.direction = 'd';
     game->player.future_direction = 'd';
+
+    game->ghost.x = 14;
+    game->ghost.y=9;
+    game->ghost.direction='a';
+    
     game->score = 0;
     game->is_running = 1;
 

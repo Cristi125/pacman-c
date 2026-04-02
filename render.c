@@ -13,8 +13,12 @@ void render_game(const Game *game)
 	    {
 	      printf("P");
 	    }
-	  else
-	    {
+	  	else if (i==game->ghost.y && j==game->ghost.x)
+	  	{
+			printf("G");
+	  	}
+		else
+		{
 	      printf("%c", game->map[i][j]);
 	    }
 	}
