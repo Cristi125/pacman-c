@@ -7,6 +7,8 @@
 typedef struct{
   int x;
   int y;
+  char direction;
+  char future_direction;
 }Player;
 
 typedef struct {
@@ -17,7 +19,8 @@ typedef struct {
 } Game;
 
 void init_game(Game *game);
-void move_player(Game *game, char direction);
+void move_player(Game *game);
+void set_player_direction(Game *game, char direction);
 int count_dots(const Game *game);
 
 #endif
