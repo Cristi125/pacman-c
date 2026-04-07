@@ -27,7 +27,9 @@ typedef struct {
 
 void init_game(Game *game);
 void move_player(Game *game);
+void move_ghost(Game *game);
 void set_player_direction(Game *game, char direction);
 int count_dots(const Game *game);
+int check_player_ghost_collision(const Game *game);
 
 #endif
