@@ -104,14 +104,20 @@ void init_game(Game *game) {
     game->ghosts[0].x = 13;
     game->ghosts[0].y = 8;
     game->ghosts[0].direction = 's';
+    game->ghosts[0].move_delay = 1;
+    game->ghosts[0].move_counter = 0;
 
     game->ghosts[1].x = 14;
     game->ghosts[1].y = 8;
     game->ghosts[1].direction = 'a';
+    game->ghosts[1].move_delay = 2;
+    game->ghosts[1].move_counter = 0;
 
     game->ghosts[2].x = 15;
     game->ghosts[2].y = 8;
     game->ghosts[2].direction = 'd';
+    game->ghosts[2].move_delay = 3;
+    game->ghosts[2].move_counter = 0;
 
     game->score = 0;
     game->is_running = 1;
@@ -173,6 +179,14 @@ void move_one_ghost(Game *game, int ghost_index) {
     char best_direction = '\0';
     int best_distance = 1000000;
     int found_non_opposite = 0;
+
+    game->ghosts[ghost_index].move_counter++;
+
+    if(game->ghosts[ghost_index].move_counter < game->ghosts[ghost_index].move_delay){
+        return;
+    }
+
+    game->ghosts[ghost_index].move_counter = 0;
 
     for (int i = 0; i < 4; i++) {
         char dir = directions[i];

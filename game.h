@@ -16,6 +16,8 @@ typedef struct{
   int x;
   int y;
   char direction;
+  int move_delay;
+  int move_counter;
 }Ghost;
 
 typedef struct {
