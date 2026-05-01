@@ -29,9 +29,9 @@ static int can_player_move_in_direction(const Game *game, char direction) {
     return 1;
 }
 
-static int can_ghost_move_in_direction(const Game *game, char direction) {
-    int new_x = game->ghost.x;
-    int new_y = game->ghost.y;
+static int can_ghost_move_in_direction(const Game *game, int ghost_index, char direction) {
+    int new_x = game->ghosts[ghost_index].x;
+    int new_y = game->ghosts[ghost_index].y;
 
     if (direction == 'w') {
         new_y--;
@@ -85,7 +85,12 @@ int count_dots(const Game *game) {
 }
 
 int check_player_ghost_collision(const Game *game) {
-    return game->player.x == game->ghost.x && game->player.y == game->ghost.y;
+    for(int i=0;i<GHOST_COUNT;i++){
+        if(game->player.x == game->ghosts[i].x && game->player.y == game->ghosts[i].y){
+            return 1;
+        }
+    }
+    return 0;
 }
 
 void init_game(Game *game) {
@@ -96,9 +101,17 @@ void init_game(Game *game) {
     game->player.direction = 'd';
     game->player.future_direction = 'd';
 
-    game->ghost.x = 14;
-    game->ghost.y = 8;
-    game->ghost.direction = 's';
+    game->ghosts[0].x = 13;
+    game->ghosts[0].y = 8;
+    game->ghosts[0].direction = 's';
+
+    game->ghosts[1].x = 14;
+    game->ghosts[1].y = 8;
+    game->ghosts[1].direction = 'a';
+
+    game->ghosts[2].x = 15;
+    game->ghosts[2].y = 8;
+    game->ghosts[2].direction = 'd';
 
     game->score = 0;
     game->is_running = 1;
@@ -154,20 +167,20 @@ void move_player(Game *game) {
     }
 }
 
-void move_ghost(Game *game) {
+void move_one_ghost(Game *game, int ghost_index) {
     char directions[4] = {'w', 'a', 's', 'd'};
-    char opposite = get_opposite_direction(game->ghost.direction);
+    char opposite = get_opposite_direction(game->ghosts[ghost_index].direction);
     char best_direction = '\0';
     int best_distance = 1000000;
     int found_non_opposite = 0;
 
     for (int i = 0; i < 4; i++) {
         char dir = directions[i];
-        int new_x = game->ghost.x;
-        int new_y = game->ghost.y;
+        int new_x = game->ghosts[ghost_index].x;
+        int new_y = game->ghosts[ghost_index].y;
         int distance;
 
-        if (!can_ghost_move_in_direction(game, dir)) {
+        if (!can_ghost_move_in_direction(game, ghost_index, dir)) {
             continue;
         }
 
@@ -199,15 +212,15 @@ void move_ghost(Game *game) {
 
         for (int i = 0; i < 4; i++) {
             char dir = directions[i];
-            int new_x = game->ghost.x;
-            int new_y = game->ghost.y;
+            int new_x = game->ghosts[ghost_index].x;
+            int new_y = game->ghosts[ghost_index].y;
             int distance;
 
             if (dir == opposite) {
                 continue;
             }
 
-            if (!can_ghost_move_in_direction(game, dir)) {
+            if (!can_ghost_move_in_direction(game, ghost_index, dir)) {
                 continue;
             }
 
@@ -234,15 +247,21 @@ void move_ghost(Game *game) {
         return;
     }
 
-    game->ghost.direction = best_direction;
+    game->ghosts[ghost_index].direction = best_direction;
 
     if (best_direction == 'w') {
-        game->ghost.y--;
+        game->ghosts[ghost_index].y--;
     } else if (best_direction == 's') {
-        game->ghost.y++;
+        game->ghosts[ghost_index].y++;
     } else if (best_direction == 'a') {
-        game->ghost.x--;
+        game->ghosts[ghost_index].x--;
     } else if (best_direction == 'd') {
-        game->ghost.x++;
+        game->ghosts[ghost_index].x++;
+    }
+}
+
+void move_ghosts(Game *game){
+    for(int i=0;i<GHOST_COUNT;i++){
+        move_one_ghost(game,i);
     }
 }

@@ -8,20 +8,27 @@ void render_game(const Game *game)
   for(int i=0;i<MAP_HEIGHT;i++)
     {
       for(int j=0;j<MAP_WIDTH;j++)
-	{
-	  if(i==game->player.y && j==game->player.x)
-	    {
-	      printf("P");
-	    }
-	  	else if (i==game->ghost.y && j==game->ghost.x)
-	  	{
-			printf("G");
-	  	}
-		else
 		{
-	      printf("%c", game->map[i][j]);
-	    }
-	}
+			int ghost_here=0;
+			if(i==game->player.y && j==game->player.x)
+	    	{
+	     	 	printf("P");
+		  		continue;
+	    	}
+			for(int k=0; k<GHOST_COUNT;k++){
+				if(i==game->ghosts[k].y && j==game->ghosts[k].x){
+					ghost_here=1;
+					break;
+				}
+			}
+
+			if(ghost_here){
+				printf("G");
+			}
+			else{
+				printf("%c", game->map[i][j]);
+			}
+		}
       printf("\n");
     }
 }

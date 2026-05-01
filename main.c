@@ -35,7 +35,7 @@ int main() {
             break;
         }
 
-        move_ghost(&game);
+        move_ghosts(&game);
 
         if (check_player_ghost_collision(&game)) {
             game.is_running = 0;
