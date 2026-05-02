@@ -3,7 +3,7 @@
 
 void render_game(const Game *game)
 {
-  printf("Score: %d\n", game->score);
+  printf("Score: %d | Lives: %d\n", game->score, game->lives);
   
   for(int i=0;i<MAP_HEIGHT;i++)
     {

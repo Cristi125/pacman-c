@@ -5,6 +5,16 @@
 #include "render.h"
 #include "input.h"
 
+static void handle_collision(Game *game) {
+    game->lives--;
+
+    if (game->lives <= 0) {
+        game->is_running = 0;
+    } else {
+        reset_positions(game);
+    }
+}
+
 int main() {
     Game game;
     char command;
@@ -15,7 +25,7 @@ int main() {
     while (game.is_running) {
         printf("\033[2J\033[H");
         render_game(&game);
-        printf("Score target: collect all dots | q to quit\n");
+        printf("Collect all dots | q to quit\n");
 
         command = read_input_nonblocking();
 
@@ -31,15 +41,23 @@ int main() {
         move_player(&game);
 
         if (check_player_ghost_collision(&game)) {
-            game.is_running = 0;
-            break;
+            handle_collision(&game);
+            if (!game.is_running) {
+                break;
+            }
+            usleep(300000);
+            continue;
         }
 
         move_ghosts(&game);
 
         if (check_player_ghost_collision(&game)) {
-            game.is_running = 0;
-            break;
+            handle_collision(&game);
+            if (!game.is_running) {
+                break;
+            }
+            usleep(300000);
+            continue;
         }
 
         usleep(200000);
@@ -52,8 +70,8 @@ int main() {
 
     if (count_dots(&game) == 0) {
         printf("You win!\n");
-    } else if (check_player_ghost_collision(&game)) {
-        printf("Game over! The ghost caught you.\n");
+    } else if (game.lives <= 0) {
+        printf("Game over! Ai rămas fără vieți.\n");
     } else {
         printf("Game ended.\n");
     }

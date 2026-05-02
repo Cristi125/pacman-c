@@ -93,13 +93,11 @@ int check_player_ghost_collision(const Game *game) {
     return 0;
 }
 
-void init_game(Game *game) {
-    init_map(game->map);
-
-    game->player.x = 14;
-    game->player.y = 13;
-    game->player.direction = 'd';
-    game->player.future_direction = 'd';
+void reset_positions(Game *game){
+    game->player.x=14;
+    game->player.y=13;
+    game->player.direction='d';
+    game->player.future_direction='d';
 
     game->ghosts[0].x = 13;
     game->ghosts[0].y = 8;
@@ -118,9 +116,16 @@ void init_game(Game *game) {
     game->ghosts[2].direction = 'd';
     game->ghosts[2].move_delay = 3;
     game->ghosts[2].move_counter = 0;
+}
 
-    game->score = 0;
-    game->is_running = 1;
+void init_game(Game *game) {
+    init_map(game->map);
+
+    game->score=0;
+    game->lives=3;
+    game->is_running=1;
+
+    reset_positions(game);
 
     if (game->map[game->player.y][game->player.x] == '.') {
         game->score++;

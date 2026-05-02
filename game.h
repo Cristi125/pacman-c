@@ -25,10 +25,12 @@ typedef struct {
   Player player;
   Ghost ghosts[GHOST_COUNT];
   int score;
+  int lives;
   int is_running;
 } Game;
 
 void init_game(Game *game);
+void reset_positions(Game *game);
 void move_player(Game *game);
 void move_ghosts(Game *game);
 void set_player_direction(Game *game, char direction);
