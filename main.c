@@ -15,17 +15,66 @@ static void handle_collision(Game *game) {
     }
 }
 
+static int show_main_menu(void){
+    int choice;
+
+    printf("===== PACMAN IN C =====\n");
+    printf("1. Start Game\n");
+    printf("2. Quit Game\n");
+    printf("Choose an option: ");
+    scanf("%d", &choice);
+
+    return choice;
+}
+
+static Difficulty show_difficulty_menu(void){
+    int choice;
+
+    printf("\n===== SELECT DIFFICULTY =====\n");
+    printf("1. Easy\n");
+    printf("2. Medium\n");
+    printf("3. Hard\n");
+    printf("Choose difficulty: ");
+    scanf("%d", &choice);
+
+    if (choice == 1) {
+        return EASY;
+    } else if (choice == 2) {
+        return MEDIUM;
+    } else {
+        return HARD;
+    }
+}
+
 int main() {
     Game game;
     char command;
+    int main_choice;
+    Difficulty difficulty;
 
-    init_game(&game);
+    main_choice = show_main_menu();
+
+    if(main_choice!=1){
+        printf("Game closed!\n");
+        return 0;
+    }
+
+    difficulty = show_difficulty_menu();
+    init_game(&game, difficulty);
+
     enable_raw_mode();
 
     while (game.is_running) {
         printf("\033[2J\033[H");
         render_game(&game);
-        printf("Collect all dots | q to quit\n");
+
+        if (game.difficulty == EASY) {
+            printf("Difficulty: Easy | Collect all dots | q to quit\n");
+        } else if (game.difficulty == MEDIUM) {
+            printf("Difficulty: Medium | Collect all dots | q to quit\n");
+        } else {
+            printf("Difficulty: Hard | Collect all dots | q to quit\n");
+        }
 
         command = read_input_nonblocking();
 

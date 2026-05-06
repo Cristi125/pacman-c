@@ -95,35 +95,49 @@ int check_player_ghost_collision(const Game *game) {
 
 void reset_positions(Game *game){
     game->player.x=14;
-    game->player.y=13;
+    game->player.y=15;
     game->player.direction='d';
     game->player.future_direction='d';
 
     game->ghosts[0].x = 13;
     game->ghosts[0].y = 8;
     game->ghosts[0].direction = 's';
-    game->ghosts[0].move_delay = 1;
     game->ghosts[0].move_counter = 0;
 
     game->ghosts[1].x = 14;
     game->ghosts[1].y = 8;
     game->ghosts[1].direction = 'a';
-    game->ghosts[1].move_delay = 2;
     game->ghosts[1].move_counter = 0;
 
     game->ghosts[2].x = 15;
     game->ghosts[2].y = 8;
     game->ghosts[2].direction = 'd';
-    game->ghosts[2].move_delay = 3;
     game->ghosts[2].move_counter = 0;
+
+    if(game->difficulty == EASY){
+        game->ghosts[0].move_delay = 4;
+        game->ghosts[1].move_delay = 5;
+        game->ghosts[2].move_delay = 6;
+    }
+    else if(game->difficulty == MEDIUM){
+        game->ghosts[0].move_delay = 2;
+        game->ghosts[1].move_delay = 3;
+        game->ghosts[2].move_delay = 4;
+    }
+    else{
+        game->ghosts[0].move_delay = 1;
+        game->ghosts[1].move_delay = 2;
+        game->ghosts[2].move_delay = 3;
+    }
 }
 
-void init_game(Game *game) {
+void init_game(Game *game, Difficulty difficulty) {
     init_map(game->map);
 
     game->score=0;
     game->lives=3;
     game->is_running=1;
+    game->difficulty = difficulty;
 
     reset_positions(game);
 
