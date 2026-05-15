@@ -1,6 +1,32 @@
 #include "game.h"
 #include "map.h"
 #include <stdlib.h>
+#include <stdio.h>
+
+int load_highscore(void){
+    FILE *file = fopen("highscore.txt","r");
+    int highscore=0;
+
+    if(file==NULL){
+        return 0;
+    }
+
+    fscanf(file,"%d", &highscore);
+    fclose(file);
+    
+    return highscore;
+}
+
+void save_highscore(int highscore){
+    FILE *file = fopen("highscore.txt","w");
+
+    if(file==NULL){
+        return;
+    }
+
+    fprintf(file,"%d",highscore);
+    fclose(file);
+}
 
 static int can_player_move_in_direction(const Game *game, char direction) {
     int new_x = game->player.x;

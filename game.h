@@ -44,4 +44,7 @@ void set_player_direction(Game *game, char direction);
 int count_dots(const Game *game);
 int check_player_ghost_collision(const Game *game);
 
+int load_highscore(void);
+void save_highscore(int highscore);
+
 #endif

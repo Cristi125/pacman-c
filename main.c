@@ -50,7 +50,10 @@ int main() {
     Game game;
     char command;
     int main_choice;
+    int highscore;
     Difficulty difficulty;
+
+    highscore=load_highscore();
 
     main_choice = show_main_menu();
 
@@ -114,13 +117,21 @@ int main() {
 
     disable_raw_mode();
 
+    if(game.score > highscore){
+        highscore=game.score;
+        save_highscore(highscore);
+    }
+
     printf("\033[2J\033[H");
     render_game(&game);
+
+    printf("Final Score: %d\n", game.score);
+    printf("High Score: %d\n", highscore);
 
     if (count_dots(&game) == 0) {
         printf("You win!\n");
     } else if (game.lives <= 0) {
-        printf("Game over! Ai rămas fără vieți.\n");
+        printf("Game over! Ai ramas fara vieti.\n");
     } else {
         printf("Game ended.\n");
     }
