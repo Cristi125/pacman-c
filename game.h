@@ -33,6 +33,7 @@ typedef struct {
   int score;
   int lives;
   int is_running;
+  int is_paused;
   Difficulty difficulty;
 } Game;
 

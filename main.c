@@ -15,7 +15,7 @@ static void handle_collision(Game *game) {
     }
 }
 
-static int show_main_menu(void){
+static int show_main_menu(void) {
     int choice;
 
     printf("===== PACMAN IN C =====\n");
@@ -27,7 +27,7 @@ static int show_main_menu(void){
     return choice;
 }
 
-static Difficulty show_difficulty_menu(void){
+static Difficulty show_difficulty_menu(void) {
     int choice;
 
     printf("\n===== SELECT DIFFICULTY =====\n");
@@ -53,12 +53,12 @@ int main() {
     int highscore;
     Difficulty difficulty;
 
-    highscore=load_highscore();
+    highscore = load_highscore();
 
     main_choice = show_main_menu();
 
-    if(main_choice!=1){
-        printf("Game closed!\n");
+    if (main_choice != 1) {
+        printf("Game closed.\n");
         return 0;
     }
 
@@ -70,13 +70,20 @@ int main() {
     while (game.is_running) {
         printf("\033[2J\033[H");
         render_game(&game);
+        printf("High Score: %d\n", highscore);
 
         if (game.difficulty == EASY) {
-            printf("Difficulty: Easy | Collect all dots | q to quit\n");
+            printf("Difficulty: Easy | ");
         } else if (game.difficulty == MEDIUM) {
-            printf("Difficulty: Medium | Collect all dots | q to quit\n");
+            printf("Difficulty: Medium | ");
         } else {
-            printf("Difficulty: Hard | Collect all dots | q to quit\n");
+            printf("Difficulty: Hard | ");
+        }
+
+        if (game.is_paused) {
+            printf("PAUSED | press p to resume | q to quit\n");
+        } else {
+            printf("p to pause | q to quit\n");
         }
 
         command = read_input_nonblocking();
@@ -84,6 +91,17 @@ int main() {
         if (command == 'q') {
             game.is_running = 0;
             break;
+        }
+
+        if (command == 'p') {
+            game.is_paused = !game.is_paused;
+            usleep(200000);
+            continue;
+        }
+
+        if (game.is_paused) {
+            usleep(200000);
+            continue;
         }
 
         if (command != '\0') {
@@ -117,8 +135,8 @@ int main() {
 
     disable_raw_mode();
 
-    if(game.score > highscore){
-        highscore=game.score;
+    if (game.score > highscore) {
+        highscore = game.score;
         save_highscore(highscore);
     }
 

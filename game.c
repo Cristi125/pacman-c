@@ -163,6 +163,7 @@ void init_game(Game *game, Difficulty difficulty) {
     game->score=0;
     game->lives=3;
     game->is_running=1;
+    game->is_paused=0;
     game->difficulty = difficulty;
 
     reset_positions(game);
