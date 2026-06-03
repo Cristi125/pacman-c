@@ -12,7 +12,7 @@ void render_game(const Game *game)
 			int ghost_here=0;
 			if(i==game->player.y && j==game->player.x)
 	    	{
-	     	 	printf("P");
+	     	 	printf("☻");
 		  		continue;
 	    	}
 			for(int k=0; k<GHOST_COUNT;k++){
@@ -23,7 +23,7 @@ void render_game(const Game *game)
 			}
 
 			if(ghost_here){
-				printf("G");
+				printf("☠");
 			}
 			else{
 				printf("%c", game->map[i][j]);
