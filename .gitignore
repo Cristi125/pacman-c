@@ -1,1 +1,10 @@
-token
+# Backup-uri editor
+*~
+#*#
+
+# Fișiere compilate C
+*.o
+*.out
+
+# Executabil joc
+pacman
