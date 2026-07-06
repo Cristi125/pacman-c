@@ -1,11 +1,12 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c99
-OBJ = main.o game.o map.o render.o input.o
+LDFLAGS = -lraylib -lm
+OBJ = main.o game.o map.o render.o
 
 pacman: $(OBJ)
-	$(CC) $(CFLAGS) -o pacman $(OBJ)
+	$(CC) $(CFLAGS) -o pacman $(OBJ) $(LDFLAGS)
 
-main.o: main.c game.h render.h input.h
+main.o: main.c game.h render.h
 	$(CC) $(CFLAGS) -c main.c
 
 game.o: game.c game.h map.h
@@ -16,9 +17,6 @@ map.o: map.c map.h game.h
 
 render.o: render.c render.h game.h
 	$(CC) $(CFLAGS) -c render.c
-
-input.o: input.c input.h
-	$(CC) $(CFLAGS) -c input.c
 
 clean:
 	rm -f *.o pacman
